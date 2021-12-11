@@ -31,10 +31,10 @@ public class Formula extends JFrame {
 
     //формулы для рассчета
     public double calculate1(Double x, Double y, Double z) {
-        return x+y+z;
+        return ((Math.sin(y) + (y * y) + Math.exp(Math.cos(y))) * (Math.pow((Math.log(z) + (Math.sin(Math.PI) * Math.pow(x, 2))), 0.25)));
     }
     public double calculate2(Double x, Double y, Double z) {
-        return (x+y+z)*2;
+        return ((Math.tan(Math.pow(x, 2)) + Math.pow(y, 0.5)) / (z * Math.log(x + y)));
     }
 
     // Определить и зарегистрировать обработчик нажатия на кнопку
