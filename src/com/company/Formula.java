@@ -10,7 +10,122 @@ import java.awt.event.*;
         private Double sum = 0.0;
         private int formula = 0;
 
+        //создание кнопок
+        private JButton button1 = new JButton("Вычислить");
+        private JButton button2 = new JButton("Очистить");
+        private JButton button3 = new JButton("M+");
+        private JButton button4 = new JButton("MC");
+        private JRadioButton radio1 = new JRadioButton("Формула 1");
 
+
+        // Текстовые поля для считывания значений переменных,  как компоненты, совместно используемые в различных методах
+        private JTextField textFieldX = new JTextField("0", 5);
+        private JTextField textFieldY = new JTextField("0", 5);
+        private JTextField textFieldZ = new JTextField("0", 5);
+        private JTextField textFieldResult = new JTextField("0", 10);
+        //подпись полей
+        private JLabel labelX = new JLabel("X:");
+        private JLabel labelY = new JLabel("Y:");
+        private JLabel labelZ = new JLabel("Z:");
+        private JLabel labelResult = new JLabel("Результат:");
+
+//формулы для рассчета
+        public double calculate1(Double x, Double y, Double z) {
+            return x+y+z;
+        }
+
+
+        // Определить и зарегистрировать обработчик нажатия на кнопку
+        public class ButtonEventListener implements ActionListener {
+            public void actionPerformed(ActionEvent e) {
+                // Преобразование введенных строк в числа с плавающей точкой может
+                // спровоцировать исключительную ситуацию при неправильном формате чисел,
+                // поэтому необходим блок try-catch
+                try {
+                    if (e.getSource() == radio1)
+                        formula = 1;
+
+                    else if (e.getSource() == button1) {
+                        Double x = Double.parseDouble(textFieldX.getText());
+                        Double y = Double.parseDouble(textFieldY.getText());
+                        Double z = Double.parseDouble(textFieldZ.getText());
+                        if (formula == 1)
+                            result = calculate1(x, y, z);
+
+                        textFieldResult.setText(result.toString());
+                    }
+
+                    else  if (e.getSource() == button2) {
+                        textFieldX.setText("0");
+                        textFieldY.setText("0");
+                        textFieldZ.setText("0");
+                        textFieldResult.setText("0");
+                    }
+
+                    else if(e.getSource() == button3) {
+                        result = Double.parseDouble(textFieldResult.getText());
+                        sum += result;
+                        textFieldResult.setText(sum.toString());
+                    }
+
+                    else if(e.getSource() == button4) {
+                        textFieldResult.setText("0");
+                        result = Double.parseDouble(textFieldResult.getText());
+                        sum = 0.0;
+                        textFieldResult.setText(sum.toString());
+                    }
+
+                }catch (NumberFormatException exception ) {
+                    JOptionPane.showMessageDialog(Formula.this, "Ошибка в формате записи числа с плавающей точкой", "Ошибочный формат числа", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+
+//конструктор класса
+        public Formula() {
+            super("Вычисление формулы");
+            this.setBounds(760, 500, 500, 400);
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            Container container = this.getContentPane();
+            container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+
+            ButtonGroup group = new ButtonGroup();
+            group.add(radio1);
+
+
+            JPanel panel1 = new JPanel();
+            panel1.add(radio1);
+            radio1.setSelected(true);
+
+            radio1.addActionListener(new ButtonEventListener ());
+
+            container.add(panel1);
+
+            JPanel panel2 = new JPanel();
+            panel2.add(labelX);
+            panel2.add(textFieldX);
+            panel2.add(labelY);
+            panel2.add(textFieldY);
+            panel2.add(labelZ);
+            panel2.add(textFieldZ);
+            container.add(panel2);
+
+            JPanel panel3 = new JPanel();
+            panel3.add(labelResult);
+            panel3.add(textFieldResult);
+            container.add(panel3);
+
+            JPanel panel4 = new JPanel();
+            panel4.add(button1);
+            panel4.add(button2);
+            container.add(panel4);
+            JPanel panel5 = new JPanel();
+
+            container.add(panel5);
+            button1.addActionListener(new ButtonEventListener ());
+            button2.addActionListener(new ButtonEventListener ());
+
+        }
 
     }
 
